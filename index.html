@@ -12,18 +12,31 @@
       rel="canonical"
       href="https://swamisaurst.github.io/service-stream-task-01-prototype/"
     />
-    <meta name="theme-color" content="#0b827c" />
+    <meta name="theme-color" content="#09090b" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="./css/styles.css?v=20260408b" />
+    <link rel="stylesheet" href="./css/styles.css?v=20260408g" />
   </head>
   <body>
     <div class="app-shell">
       <aside class="sidebar" aria-label="Prototype navigation">
+        <div class="sidebar-brand">
+          <img
+            class="sidebar-brand__logo"
+            src="./assets/sitetracker-logo-white.png"
+            alt="Sitetracker"
+            width="200"
+            height="40"
+          />
+          <p class="prototype-disclaimer" role="note">
+            This prototype is for representative purposes only and does not reflect
+            an actual product release.
+          </p>
+        </div>
         <header class="sidebar-header">
           <p class="eyebrow">Service Stream</p>
           <h1>View out-of-scope assets</h1>
@@ -31,6 +44,27 @@
         </header>
 
         <nav class="flow-nav" aria-label="Prototype screens">
+          <div class="flow-nav__group flow-nav__group--ref">
+            <span class="flow-nav__group-label">
+              <svg
+                class="flow-nav__group-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <rect x="3" y="3" width="7" height="7" rx="1" />
+                <rect x="14" y="3" width="7" height="7" rx="1" />
+                <rect x="3" y="14" width="7" height="7" rx="1" />
+                <rect x="14" y="14" width="7" height="7" rx="1" />
+              </svg>
+              Reference
+            </span>
+            <div class="flow-nav__pills" id="flow-pills--ref"></div>
+          </div>
           <div class="flow-nav__group flow-nav__group--happy">
             <span class="flow-nav__group-label">
               <svg
@@ -90,27 +124,6 @@
             </span>
             <div class="flow-nav__pills" id="flow-pills--subflow"></div>
           </div>
-          <div class="flow-nav__group flow-nav__group--ref">
-            <span class="flow-nav__group-label">
-              <svg
-                class="flow-nav__group-icon"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                aria-hidden="true"
-              >
-                <rect x="3" y="3" width="7" height="7" rx="1" />
-                <rect x="14" y="3" width="7" height="7" rx="1" />
-                <rect x="3" y="14" width="7" height="7" rx="1" />
-                <rect x="14" y="14" width="7" height="7" rx="1" />
-              </svg>
-              Reference
-            </span>
-            <div class="flow-nav__pills" id="flow-pills--ref"></div>
-          </div>
         </nav>
       </aside>
 
@@ -147,8 +160,8 @@
                 <line x1="3" y1="21" x2="10" y2="14" />
               </svg>
               <svg class="scale-toggle__icon scale-toggle__icon--actual" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
-                <line x1="12" y1="18" x2="12.01" y2="18" />
+                <rect x="3" y="3" width="18" height="14" rx="1" ry="1" />
+                <line x1="8" y1="21" x2="16" y2="21" />
               </svg>
             </span>
             <span class="scale-toggle__label">Fit</span>
@@ -157,6 +170,6 @@
       </div>
     </div>
 
-    <script src="./js/app.js?v=20260408b"></script>
+    <script src="./js/app.js?v=20260408g"></script>
   </body>
 </html>

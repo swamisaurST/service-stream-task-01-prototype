@@ -1,25 +1,30 @@
 :root {
-  color-scheme: light;
-  --text: #18181b;
-  --muted: #52525b;
-  --border: #e4e4e7;
-  --teal: #0b827c;
-  --teal-muted: rgba(11, 130, 124, 0.12);
-  --surface: #ffffff;
-  --page-bg: #f4f4f5;
+  color-scheme: dark;
+  --text: #fafafa;
+  --muted: #a1a1aa;
+  --border: #3f3f46;
+  --teal: #2dd4bf;
+  --surface: #18181b;
+  --pill-bg: #27272a;
+  --page-bg: #09090b;
 
-  /* Flow group accents (sidebar) */
-  --group-happy: #0d9488;
-  --group-happy-soft: rgba(13, 148, 136, 0.14);
-  --group-edge: #d97706;
-  --group-edge-soft: rgba(217, 119, 6, 0.14);
-  --group-subflow: #7c3aed;
-  --group-subflow-soft: rgba(124, 58, 237, 0.14);
-  --group-ref: #2563eb;
-  --group-ref-soft: rgba(37, 99, 235, 0.14);
+  --group-happy: #2dd4bf;
+  --group-happy-soft: rgba(45, 212, 191, 0.14);
+  --group-edge: #fbbf24;
+  --group-edge-soft: rgba(251, 191, 36, 0.12);
+  --group-subflow: #a78bfa;
+  --group-subflow-soft: rgba(167, 139, 250, 0.14);
+  --group-ref: #60a5fa;
+  --group-ref-soft: rgba(96, 165, 250, 0.14);
 
-  --rail-bg: #fafafa;
-  --rail-border: #e4e4e7;
+  --rail-bg: #0c0c0e;
+  --rail-border: #3f3f46;
+
+  /* Phone artboard size (matches design exports) */
+  --preview-w: 396px;
+  --preview-h: 874px;
+  --preview-ratio-w: 396;
+  --preview-ratio-h: 874;
 }
 
 *,
@@ -53,6 +58,21 @@ button {
   align-items: stretch;
 }
 
+.sidebar-brand {
+  margin: -20px -14px 16px -16px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.sidebar-brand__logo {
+  display: block;
+  height: 28px;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  object-position: left center;
+}
+
 .sidebar {
   background: var(--surface);
   border-right: 1px solid var(--border);
@@ -65,7 +85,7 @@ button {
   top: 0;
   align-self: start;
   max-height: 100vh;
-  box-shadow: 1px 0 0 rgba(0, 0, 0, 0.03);
+  box-shadow: 1px 0 0 rgba(255, 255, 255, 0.05);
 }
 
 .sidebar-header h1 {
@@ -155,7 +175,7 @@ button {
   padding: 8px 12px;
   font-size: 12px;
   font-weight: 500;
-  background: var(--surface);
+  background: var(--pill-bg);
   color: var(--text);
   text-align: left;
   width: 100%;
@@ -226,7 +246,6 @@ button {
   color: #fff;
 }
 
-/* Main preview column + right rail */
 .stage-column {
   display: flex;
   flex-direction: row;
@@ -274,15 +293,15 @@ button {
 }
 
 .scale-toggle:hover {
-  border-color: #93c5fd;
-  background: rgba(37, 99, 235, 0.06);
-  color: #1d4ed8;
+  border-color: rgba(96, 165, 250, 0.55);
+  background: rgba(96, 165, 250, 0.1);
+  color: #93c5fd;
 }
 
 .scale-toggle[aria-pressed="true"] {
-  border-color: #3b82f6;
-  background: rgba(37, 99, 235, 0.12);
-  color: #1e40af;
+  border-color: #60a5fa;
+  background: rgba(96, 165, 250, 0.18);
+  color: #bfdbfe;
 }
 
 .scale-toggle:focus-visible {
@@ -303,7 +322,6 @@ button {
   height: 22px;
 }
 
-/* Show "fit" icon when at 1:1 (click → fit); show phone when fit active (click → 1:1) */
 .stage:not(.fit-mode) .scale-toggle__icon--actual {
   opacity: 0;
   pointer-events: none;
@@ -334,34 +352,33 @@ button {
   min-width: 0;
 }
 
-/* 1:1 (design pixel size) — phone frames */
+/* Phone frames — dimensions from CSS variables */
 .stage:not(.fit-mode):not(.is-wide) .device-screen {
-  width: 396px;
-  height: 874px;
+  width: var(--preview-w);
+  height: var(--preview-h);
 }
 
 .stage:not(.fit-mode):not(.is-wide) .screen-image {
-  width: 396px;
-  height: 874px;
+  width: var(--preview-w);
+  height: var(--preview-h);
 }
 
-/* Fit to available space (keeps 396:874) */
 .stage.fit-mode:not(.is-wide) .device-frame {
   max-width: 100%;
 }
 
 .stage.fit-mode:not(.is-wide) .device-screen {
   width: auto;
-  height: min(874px, calc(100dvh - 100px));
+  height: min(var(--preview-h), calc(100dvh - 100px));
   max-width: 100%;
-  aspect-ratio: 396 / 874;
+  aspect-ratio: var(--preview-ratio-w) / var(--preview-ratio-h);
 }
 
 .stage.fit-mode:not(.is-wide) .screen-image {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  max-height: min(874px, calc(100dvh - 100px));
+  max-height: min(var(--preview-h), calc(100dvh - 100px));
 }
 
 .stage.is-wide .device-frame {
@@ -377,7 +394,7 @@ button {
 }
 
 .stage.fit-mode.is-wide .device-screen {
-  max-height: min(70vh, 560px);
+  max-height: min(72vh, 560px);
   width: auto;
   max-width: 100%;
   margin: 0 auto;
@@ -390,7 +407,7 @@ button {
 
 .stage.fit-mode.is-wide .screen-image {
   width: 100%;
-  max-height: min(70vh, 560px);
+  max-height: min(72vh, 560px);
   object-fit: contain;
 }
 
@@ -400,18 +417,18 @@ button {
 
 .device-frame {
   padding: 16px;
-  border-radius: 32px;
-  background: linear-gradient(165deg, #fff 0%, #f4f4f5 100%);
+  border-radius: 24px;
+  background: linear-gradient(165deg, #27272a 0%, #18181b 100%);
   border: 1px solid var(--border);
   box-shadow:
-    0 4px 24px rgba(0, 0, 0, 0.06),
-    0 24px 48px rgba(0, 0, 0, 0.08);
+    0 4px 24px rgba(0, 0, 0, 0.45),
+    0 24px 48px rgba(0, 0, 0, 0.35);
 }
 
 .device-screen {
   position: relative;
   margin: 0 auto;
-  border-radius: 24px;
+  border-radius: 16px;
   overflow: hidden;
   background: #000;
 }
@@ -490,11 +507,21 @@ button {
   outline: 2px solid var(--teal);
   outline-offset: 1px;
   border-radius: 4px;
-  background: rgba(11, 130, 124, 0.08);
+  background: rgba(45, 212, 191, 0.12);
 }
 
 .hits-layer.reveal-hints .hit:focus-visible {
   outline-color: #2563eb;
+}
+
+.prototype-disclaimer {
+  flex-shrink: 0;
+  margin: 12px 0 0;
+  padding: 12px 0 0;
+  border-top: 1px solid var(--border);
+  font-size: 11px;
+  line-height: 1.45;
+  color: var(--muted);
 }
 
 @media (max-width: 900px) {
@@ -556,7 +583,7 @@ button {
   .stage:not(.fit-mode):not(.is-wide) .device-screen {
     width: 100%;
     height: auto;
-    aspect-ratio: 396 / 874;
+    aspect-ratio: var(--preview-ratio-w) / var(--preview-ratio-h);
   }
 
   .stage:not(.fit-mode):not(.is-wide) .screen-image {

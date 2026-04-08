@@ -196,7 +196,7 @@ const slugToScreen = new Map(screens.map((s) => [s.slug, s]));
 const idToScreen = new Map(screens.map((s) => [s.id, s]));
 const idToSlug = new Map(screens.map((s) => [s.id, s.slug]));
 
-const DEFAULT_SLUG = "intro";
+const DEFAULT_SLUG = "flow-overview";
 const SCALE_STORAGE_KEY = "st-task01-preview-scale";
 
 const state = {
@@ -247,7 +247,7 @@ function applyScaleMode() {
   if (els.scaleToggle) {
     els.scaleToggle.setAttribute("aria-pressed", isFit ? "true" : "false");
     els.scaleToggle.title = isFit
-      ? "Show design pixels at 1:1 (396×874)"
+      ? "Show design pixels at 1:1"
       : "Scale preview to fit the window";
     if (els.scaleToggleLabel) {
       els.scaleToggleLabel.textContent = isFit ? "1:1" : "Fit";
@@ -366,7 +366,7 @@ function render() {
 }
 
 function buildFlowPills() {
-  const groups = ["happy", "edge", "subflow", "ref"];
+  const groups = ["ref", "happy", "edge", "subflow"];
   groups.forEach((g) => {
     const host = els.pillGroups[g];
     host.innerHTML = "";
