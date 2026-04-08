@@ -201,6 +201,7 @@ const DEFAULT_SLUG = "intro";
 const state = {
   slug: DEFAULT_SLUG,
   autoTimer: null,
+  hintRevealTimer: null,
 };
 
 const els = {
@@ -247,10 +248,28 @@ function clearAuto() {
   }
 }
 
+function clearHintRevealTimer() {
+  if (state.hintRevealTimer) {
+    clearTimeout(state.hintRevealTimer);
+    state.hintRevealTimer = null;
+  }
+}
+
+function setRevealHints(on) {
+  clearHintRevealTimer();
+  els.hits.classList.toggle("reveal-hints", on);
+  if (on) {
+    state.hintRevealTimer = window.setTimeout(() => {
+      els.hits.classList.remove("reveal-hints");
+      state.hintRevealTimer = null;
+    }, 5500);
+  }
+}
+
 function renderHits(screen) {
   els.hits.innerHTML = "";
-  const has = screen.hits && screen.hits.length > 0;
-  els.hits.classList.toggle("has-targets", has);
+  els.hits.classList.remove("reveal-hints");
+  clearHintRevealTimer();
 
   (screen.hits || []).forEach((h) => {
     const btn = document.createElement("button");
@@ -261,7 +280,10 @@ function renderHits(screen) {
     btn.style.top = pctY(h.y);
     btn.style.width = pctX(h.width);
     btn.style.height = pctY(h.height);
-    btn.addEventListener("click", () => navigateToSlug(h.target));
+    btn.addEventListener("click", () => {
+      setRevealHints(false);
+      navigateToSlug(h.target);
+    });
     els.hits.appendChild(btn);
   });
 }
@@ -346,6 +368,24 @@ function initFromLocation() {
   render();
 }
 
+function onDeviceScreenClick(e) {
+  if (els.stage.classList.contains("is-wide")) return;
+  if (e.target.closest(".hit")) return;
+
+  const inDevice = e.target.closest("#device-screen");
+  if (!inDevice) return;
+
+  const screen = slugToScreen.get(state.slug);
+  if (!screen?.hits?.length) return;
+
+  if (els.hits.classList.contains("reveal-hints")) {
+    setRevealHints(false);
+  } else {
+    setRevealHints(true);
+  }
+}
+
 buildFlowPills();
+els.screen.addEventListener("click", onDeviceScreenClick);
 window.addEventListener("hashchange", onHashChange);
 initFromLocation();
