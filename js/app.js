@@ -1,377 +1,351 @@
 /**
- * Task-01 prototype — screens match Pencil frames 396×874 (1x) in design-exports/.
- * Retina: design-exports/2x/<id>.png @ 2x via srcset.
+ * Task-01 prototype — images from Pencil node IDs; URLs and UI use human slugs only.
  */
 const PHONE_WIDTH = 396;
 const PHONE_HEIGHT = 874;
 
-const pctX = (value) => `${(value / PHONE_WIDTH) * 100}%`;
-const pctY = (value) => `${(value / PHONE_HEIGHT) * 100}%`;
+const pctX = (v) => `${(v / PHONE_WIDTH) * 100}%`;
+const pctY = (v) => `${(v / PHONE_HEIGHT) * 100}%`;
 
 const EXPORT_BASE = "./design-exports";
 
-function imageAttrsForScreen(screen) {
+function imageAttrs(screen) {
   const id = screen.id;
-  const src = `${EXPORT_BASE}/${id}.png`;
-  const src2x = `${EXPORT_BASE}/2x/${id}.png`;
-  const sizes =
-    screen.mode === "wide"
-      ? "(max-width: 1400px) min(96vw, 1320px), 1200px"
-      : `${PHONE_WIDTH}px`;
   return {
-    src,
-    srcset: `${src2x} 2x`,
-    sizes,
+    src: `${EXPORT_BASE}/${id}.png`,
+    srcset: `${EXPORT_BASE}/2x/${id}.png 2x`,
+    sizes:
+      screen.mode === "wide"
+        ? "(max-width: 1400px) min(96vw, 1200px), 1200px"
+        : `${PHONE_WIDTH}px`,
+    width: screen.mode === "wide" ? 2200 : PHONE_WIDTH,
+    height: screen.mode === "wide" ? 560 : PHONE_HEIGHT,
   };
 }
 
+/**
+ * Tap targets from Task-01.pen layout (frame coordinates). `target` = slug.
+ * No decorative QA zones on the map — edge cases are reached from the top flow only.
+ */
 const screens = [
   {
     id: "VvQHl",
-    slug: "hero",
-    title: "Hero",
-    group: "main",
-    note: "Cover frame for the Requirement 1 prototype. Tap the lower CTA area to enter the map flow.",
-    hotspots: [
-      { x: 74, y: 756, width: 248, height: 70, label: "Start", target: "nATGl", wide: true },
-    ],
+    slug: "intro",
+    flowLabel: "Intro",
+    navGroup: "happy",
+    hint: "Cover screen from the design file. Use the pill “Map — OOS off” above to start the happy path (no phantom tap targets on this artboard).",
+    hits: [],
   },
   {
     id: "nATGl",
-    slug: "default-map",
-    title: "1.0 Default Map",
-    group: "main",
-    note: "Entry state with OOS inactive. Tap the filter control to open nearby layer selection.",
-    hotspots: [{ x: 330, y: 145, width: 46, height: 46, label: "Layers", target: "W6XyF" }],
+    slug: "map-oos-off",
+    flowLabel: "Map — OOS off",
+    navGroup: "happy",
+    hint: "OOS is inactive. Open the layers funnel to choose which nearby asset types to load.",
+    hits: [{ x: 340, y: 123, width: 40, height: 40, target: "layer-picker", aria: "Open nearby assets / layers" }],
   },
   {
     id: "W6XyF",
-    slug: "layer-selection",
-    title: "1.1 Layer Selection",
-    group: "main",
-    note: "Nearby / layer panel open. Tap the Planned row toggle to fetch OOS assets.",
-    hotspots: [
-      { x: 258, y: 649, width: 94, height: 34, label: "Enable", target: "FoXXr", wide: true },
-      { x: 16, y: 64, width: 38, height: 38, label: "Back", target: "nATGl" },
+    slug: "layer-picker",
+    flowLabel: "Nearby layers",
+    navGroup: "happy",
+    hint: "Turn on Planned (first row) to load out-of-scope assets. Back returns to the map with OOS off.",
+    hits: [
+      { x: 4, y: 38, width: 44, height: 44, target: "map-oos-off", aria: "Back to map" },
+      { x: 0, y: 643, width: 396, height: 64, target: "loading", aria: "Toggle Planned layer on" },
     ],
   },
   {
     id: "FoXXr",
     slug: "loading",
-    title: "1.2 Loading",
-    group: "main",
-    note: "Loading state. This screen auto-advances into the populated map after a short pause.",
-    autoAdvanceTo: "Fx6sb",
-    autoAdvanceDelay: 1400,
-    hotspots: [{ x: 16, y: 64, width: 38, height: 38, label: "Back", target: "W6XyF" }],
+    flowLabel: "Loading",
+    navGroup: "happy",
+    hint: "Fetching nearby assets. This prototype continues automatically to the populated map.",
+    autoAdvanceTo: "map-oos-on",
+    autoAdvanceDelay: 1600,
+    hits: [{ x: 4, y: 38, width: 44, height: 44, target: "layer-picker", aria: "Back to layer sheet" }],
   },
   {
     id: "Fx6sb",
-    slug: "populated-map",
-    title: "1.3 Populated Map",
-    group: "main",
-    note: "Assets loaded with legend and marker states. Tap the center asset to open the detail card, or branch into an edge case.",
-    hotspots: [
-      { x: 160, y: 463, width: 74, height: 74, label: "Asset", target: "UOyL2" },
-      { x: 330, y: 144, width: 46, height: 46, label: "Layers", target: "W6XyF" },
-      { x: 320, y: 320, width: 58, height: 32, label: "Empty", target: "Ynrkt", wide: true },
-      { x: 320, y: 364, width: 58, height: 32, label: "Error", target: "Y3qLp", wide: true },
-      { x: 305, y: 408, width: 73, height: 32, label: "No access", target: "Egs8X", wide: true },
-      { x: 325, y: 452, width: 53, height: 32, label: "Off", target: "TzhY7", wide: true },
+    slug: "map-oos-on",
+    flowLabel: "Map — OOS on",
+    navGroup: "happy",
+    hint: "Markers and legend are visible. Tap the highlighted pit marker to open the read-only card, or the funnel to adjust layers.",
+    hits: [
+      { x: 340, y: 123, width: 40, height: 40, target: "layer-picker", aria: "Open nearby assets / layers" },
+      { x: 172, y: 391, width: 56, height: 56, target: "oos-detail", aria: "Open asset detail" },
     ],
   },
   {
     id: "UOyL2",
     slug: "oos-detail",
-    title: "1.4 OOS Asset Detail",
-    group: "main",
-    note: "Read-only OOS detail card. Continue into the extended add-to-project sub-flow from the primary CTA.",
-    hotspots: [
-      { x: 16, y: 64, width: 38, height: 38, label: "Back", target: "Fx6sb" },
-      { x: 27, y: 768, width: 342, height: 46, label: "Add to project", target: "8LdJ5", wide: true },
+    flowLabel: "OOS detail",
+    navGroup: "happy",
+    hint: "Read-only sheet. Add to project continues the optional work-log story; back returns to the map.",
+    hits: [
+      { x: 4, y: 38, width: 44, height: 44, target: "map-oos-on", aria: "Back to map" },
+      { x: 16, y: 752, width: 364, height: 72, target: "add-to-project", aria: "Add to project" },
     ],
   },
   {
     id: "Ynrkt",
-    slug: "empty-state",
-    title: "1.5 Empty State",
-    group: "edge",
-    note: "No assets returned for the selected radius. Use the bottom action to return to the layer sheet.",
-    hotspots: [
-      { x: 28, y: 727, width: 340, height: 42, label: "Adjust filters", target: "W6XyF", wide: true },
+    slug: "empty-nearby",
+    flowLabel: "No assets nearby",
+    navGroup: "edge",
+    hint: "Nothing in radius. Adjust filters returns to the layer sheet.",
+    hits: [
+      { x: 16, y: 758, width: 364, height: 40, target: "layer-picker", aria: "Adjust filters" },
     ],
   },
   {
     id: "Y3qLp",
-    slug: "error-state",
-    title: "1.6 Error State",
-    group: "edge",
-    note: "Fetch failed. Retry from the inline action or return to the layer sheet from the QA list.",
-    hotspots: [{ x: 24, y: 726, width: 348, height: 44, label: "Retry", target: "FoXXr", wide: true }],
+    slug: "fetch-error",
+    flowLabel: "Fetch error",
+    navGroup: "edge",
+    hint: "Retry runs the load again. Use the flow bar to jump to any other state.",
+    hits: [{ x: 24, y: 708, width: 348, height: 48, target: "loading", aria: "Retry load" }],
   },
   {
     id: "Egs8X",
-    slug: "permission-denied",
-    title: "1.7 Permission Denied",
-    group: "edge",
-    note: "User lacks access to the layer. Return to the layer selector to continue the happy path.",
-    hotspots: [
-      { x: 28, y: 720, width: 340, height: 44, label: "Back to layers", target: "W6XyF", wide: true },
-    ],
+    slug: "layer-permission",
+    flowLabel: "Layer blocked",
+    navGroup: "edge",
+    hint: "Role cannot enable this layer. Back to layers returns to the sheet.",
+    hits: [{ x: 28, y: 712, width: 340, height: 44, target: "layer-picker", aria: "Back to layers" }],
   },
   {
     id: "TzhY7",
-    slug: "toggle-off",
-    title: "1.8 Toggle Off",
-    group: "edge",
-    note: "OOS markers hidden. Return to the default map entry state from the toast branch.",
-    hotspots: [{ x: 28, y: 720, width: 340, height: 44, label: "Done", target: "nATGl", wide: true }],
+    slug: "oos-disabled",
+    flowLabel: "OOS off",
+    navGroup: "edge",
+    hint: "OOS deactivated; toast confirms. Dismiss returns to the default map.",
+    hits: [{ x: 28, y: 712, width: 340, height: 44, target: "map-oos-off", aria: "Dismiss" }],
   },
   {
     id: "8LdJ5",
     slug: "add-to-project",
-    title: "1.9 Add to Project",
-    group: "subflow",
-    note: "Extended intake step launched from the OOS detail card.",
-    hotspots: [
-      { x: 16, y: 64, width: 38, height: 38, label: "Back", target: "UOyL2" },
-      { x: 28, y: 768, width: 340, height: 46, label: "Choose project", target: "gxYDh", wide: true },
+    flowLabel: "Add to project",
+    navGroup: "subflow",
+    hint: "Choose a project to attach context before logging work.",
+    hits: [
+      { x: 4, y: 38, width: 44, height: 44, target: "oos-detail", aria: "Back" },
+      { x: 20, y: 778, width: 356, height: 48, target: "pick-project", aria: "Choose project" },
     ],
   },
   {
     id: "gxYDh",
-    slug: "project-picker",
-    title: "1.10 Project Picker",
-    group: "subflow",
-    note: "Select a destination project to continue into the work log form.",
-    hotspots: [
-      { x: 24, y: 210, width: 348, height: 70, label: "Select project", target: "dyUol", wide: true },
-      { x: 16, y: 64, width: 38, height: 38, label: "Back", target: "8LdJ5" },
+    slug: "pick-project",
+    flowLabel: "Choose project",
+    navGroup: "subflow",
+    hint: "Pick a destination project row, then continue to the work log.",
+    hits: [
+      { x: 4, y: 38, width: 44, height: 44, target: "add-to-project", aria: "Back" },
+      { x: 24, y: 200, width: 348, height: 72, target: "work-log", aria: "Select project" },
     ],
   },
   {
     id: "dyUol",
-    slug: "work-log-form",
-    title: "1.11 Work Log Form",
-    group: "subflow",
-    note: "Form entry state. Continue from the bottom action into the review screen.",
-    hotspots: [
-      { x: 211, y: 822, width: 157, height: 34, label: "Review", target: "DSeSv", wide: true },
-      { x: 28, y: 822, width: 158, height: 34, label: "Back", target: "gxYDh", wide: true },
+    slug: "work-log",
+    flowLabel: "Work log",
+    navGroup: "subflow",
+    hint: "Fill fields, then review before submit.",
+    hits: [
+      { x: 28, y: 818, width: 158, height: 40, target: "pick-project", aria: "Back" },
+      { x: 206, y: 818, width: 162, height: 40, target: "work-log-review", aria: "Review" },
     ],
   },
   {
     id: "DSeSv",
     slug: "work-log-review",
-    title: "1.12 Work Log Review",
-    group: "subflow",
-    note: "Final review. Submit for success or use the alternate branch to inspect the conflict state.",
-    hotspots: [
-      { x: 212, y: 822, width: 156, height: 34, label: "Submit", target: "TaeoT", wide: true },
-      { x: 28, y: 822, width: 158, height: 34, label: "Conflict", target: "tYbkE", wide: true },
+    flowLabel: "Review & submit",
+    navGroup: "subflow",
+    hint: "Submit completes the happy path. The sync-conflict outcome is only in the flow bar (not a second primary button here).",
+    hits: [
+      { x: 28, y: 818, width: 158, height: 40, target: "work-log", aria: "Back" },
+      { x: 206, y: 818, width: 162, height: 40, target: "linked-success", aria: "Submit" },
     ],
   },
   {
     id: "TaeoT",
-    slug: "success",
-    title: "1.13 Success",
-    group: "subflow",
-    note: "Success toast on the map. Return to the populated map to keep exploring.",
-    hotspots: [
-      { x: 28, y: 768, width: 340, height: 46, label: "Back to map", target: "Fx6sb", wide: true },
-    ],
+    slug: "linked-success",
+    flowLabel: "Success",
+    navGroup: "subflow",
+    hint: "Asset linked; toast on map. Return to the populated map to keep exploring.",
+    hits: [{ x: 28, y: 760, width: 340, height: 56, target: "map-oos-on", aria: "Back to map" }],
   },
   {
     id: "tYbkE",
-    slug: "conflict",
-    title: "1.14 Error / Conflict",
-    group: "subflow",
-    note: "Conflict sheet branch from the review step.",
-    hotspots: [
-      { x: 28, y: 781, width: 340, height: 40, label: "Back to review", target: "DSeSv", wide: true },
-    ],
+    slug: "sync-conflict",
+    flowLabel: "Sync conflict",
+    navGroup: "subflow",
+    hint: "Error sheet from a failed submit. Back returns to review.",
+    hits: [{ x: 28, y: 772, width: 340, height: 48, target: "work-log-review", aria: "Back to review" }],
   },
   {
     id: "WiK0c",
-    slug: "flow-diagram",
-    title: "Flow Diagram",
-    group: "diagram",
-    note: "Reference diagram exported from the Pencil canvas for the overall Task 01 path.",
+    slug: "flow-overview",
+    flowLabel: "Flow map",
+    navGroup: "ref",
+    hint: "Pencil user-flow diagram (WiK0c). Use the pills above to open each interactive screen.",
     mode: "wide",
-    hotspots: [],
+    hits: [],
   },
 ];
 
-const orderedIds = screens.map((screen) => screen.id);
-const screenMap = new Map(screens.map((screen) => [screen.id, screen]));
+const slugToScreen = new Map(screens.map((s) => [s.slug, s]));
+const idToScreen = new Map(screens.map((s) => [s.id, s]));
+const idToSlug = new Map(screens.map((s) => [s.id, s.slug]));
+
+const DEFAULT_SLUG = "intro";
 
 const state = {
-  currentId: window.location.hash.replace("#", "") || "VvQHl",
-  hotspotsVisible: true,
-  autoAdvanceTimer: null,
+  slug: DEFAULT_SLUG,
+  autoTimer: null,
 };
 
 const els = {
-  image: document.querySelector("#screen-image"),
-  flowThumb: document.querySelector(".flow-diagram"),
-  hotspotsLayer: document.querySelector("#hotspots-layer"),
-  prototypeStage: document.querySelector(".prototype-stage"),
-  currentScreenTitle: document.querySelector("#current-screen-title"),
-  currentScreenNote: document.querySelector("#current-screen-note"),
-  previousButton: document.querySelector("#previous-screen"),
-  nextButton: document.querySelector("#next-screen"),
-  toggleHotspots: document.querySelector("#toggle-hotspots"),
-  template: document.querySelector("#screen-button-template"),
-  lists: {
-    main: document.querySelector("#main-flow-list"),
-    edge: document.querySelector("#edge-case-list"),
-    subflow: document.querySelector("#subflow-list"),
+  stage: document.getElementById("prototype-stage"),
+  screen: document.getElementById("device-screen"),
+  image: document.getElementById("screen-image"),
+  hits: document.getElementById("hits-layer"),
+  hint: document.getElementById("state-hint"),
+  pillGroups: {
+    happy: document.getElementById("flow-pills--happy"),
+    edge: document.getElementById("flow-pills--edge"),
+    subflow: document.getElementById("flow-pills--subflow"),
+    ref: document.getElementById("flow-pills--ref"),
   },
 };
 
-function applyImageAttrs(img, screen) {
-  const { src, srcset, sizes } = imageAttrsForScreen(screen);
-  img.src = src;
-  img.srcset = srcset;
-  img.sizes = sizes;
-  img.width = screen.mode === "wide" ? 2200 : PHONE_WIDTH;
-  img.height = screen.mode === "wide" ? 560 : PHONE_HEIGHT;
+function parseHash() {
+  const raw = window.location.hash.replace(/^#/, "").trim();
+  if (!raw) return DEFAULT_SLUG;
+  if (slugToScreen.has(raw)) return raw;
+  if (idToSlug.has(raw)) return idToSlug.get(raw);
+  return DEFAULT_SLUG;
 }
 
-function buildScreenLists() {
-  ["main", "edge", "subflow"].forEach((group) => {
-    const target = els.lists[group];
-    target.innerHTML = "";
-
-    screens
-      .filter((screen) => screen.group === group)
-      .forEach((screen) => {
-        const node = els.template.content.firstElementChild.cloneNode(true);
-        node.dataset.target = screen.id;
-        node.querySelector(".screen-list__label").textContent = screen.title;
-        node.querySelector(".screen-list__id").textContent = screen.id;
-        node.addEventListener("click", () => navigateTo(screen.id));
-        target.appendChild(node);
-      });
-  });
-}
-
-function clearAutoAdvance() {
-  if (state.autoAdvanceTimer) {
-    window.clearTimeout(state.autoAdvanceTimer);
-    state.autoAdvanceTimer = null;
+function setHash(slug) {
+  if (window.location.hash !== `#${slug}`) {
+    window.location.hash = slug;
+    return true;
   }
+  return false;
 }
 
-function navigateTo(screenId) {
-  const fallback = orderedIds[0];
-  const nextId = screenMap.has(screenId) ? screenId : fallback;
-
-  if (window.location.hash !== `#${nextId}`) {
-    window.location.hash = nextId;
-    return;
-  }
-
-  state.currentId = nextId;
+function navigateToSlug(slug) {
+  if (!slugToScreen.has(slug)) return;
+  if (setHash(slug)) return;
+  state.slug = slug;
   render();
 }
 
-function renderHotspots(screen) {
-  els.hotspotsLayer.innerHTML = "";
+function clearAuto() {
+  if (state.autoTimer) {
+    clearTimeout(state.autoTimer);
+    state.autoTimer = null;
+  }
+}
 
-  screen.hotspots.forEach((hotspot) => {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = `hotspot${hotspot.wide ? " hotspot--wide" : ""}`;
-    button.dataset.label = hotspot.label;
-    button.setAttribute("aria-label", `${hotspot.label} → ${hotspot.target}`);
-    button.style.left = pctX(hotspot.x);
-    button.style.top = pctY(hotspot.y);
-    button.style.width = pctX(hotspot.width);
-    button.style.height = pctY(hotspot.height);
-    button.textContent = hotspot.label;
-    button.addEventListener("click", () => navigateTo(hotspot.target));
-    els.hotspotsLayer.appendChild(button);
+function renderHits(screen) {
+  els.hits.innerHTML = "";
+  const has = screen.hits && screen.hits.length > 0;
+  els.hits.classList.toggle("has-targets", has);
+
+  (screen.hits || []).forEach((h) => {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "hit";
+    btn.setAttribute("aria-label", h.aria);
+    btn.style.left = pctX(h.x);
+    btn.style.top = pctY(h.y);
+    btn.style.width = pctX(h.width);
+    btn.style.height = pctY(h.height);
+    btn.addEventListener("click", () => navigateToSlug(h.target));
+    els.hits.appendChild(btn);
   });
-
-  els.hotspotsLayer.classList.toggle(
-    "is-visible",
-    state.hotspotsVisible && screen.hotspots.length > 0
-  );
 }
 
-function renderNavButtons(index) {
-  const previousId = orderedIds[index - 1];
-  const nextId = orderedIds[index + 1];
-
-  els.previousButton.disabled = !previousId;
-  els.nextButton.disabled = !nextId;
-  els.previousButton.onclick = previousId ? () => navigateTo(previousId) : null;
-  els.nextButton.onclick = nextId ? () => navigateTo(nextId) : null;
+function renderImage(screen) {
+  const attrs = imageAttrs(screen);
+  els.image.src = attrs.src;
+  els.image.srcset = attrs.srcset;
+  els.image.sizes = attrs.sizes;
+  els.image.width = attrs.width;
+  els.image.height = attrs.height;
+  els.image.alt = screen.flowLabel;
+  els.image.decoding = "async";
 }
 
-function renderActiveButtons() {
-  document.querySelectorAll(".screen-list__item").forEach((button) => {
-    button.classList.toggle("is-active", button.dataset.target === state.currentId);
+function renderPills() {
+  document.querySelectorAll(".flow-pill").forEach((btn) => {
+    btn.classList.toggle("is-active", btn.dataset.slug === state.slug);
   });
 }
 
 function render() {
-  clearAutoAdvance();
+  clearAuto();
 
-  const screen = screenMap.get(state.currentId) || screenMap.get("VvQHl");
-  const index = orderedIds.indexOf(screen.id);
+  const screen = slugToScreen.get(state.slug) || slugToScreen.get(DEFAULT_SLUG);
+  els.hint.textContent = screen.hint;
+  renderImage(screen);
+  els.stage.classList.toggle("is-wide", screen.mode === "wide");
+  renderHits(screen);
+  renderPills();
 
-  applyImageAttrs(els.image, screen);
-  els.image.alt = `${screen.title} screen`;
-  els.image.decoding = "async";
-  els.image.fetchPriority = index === 0 ? "high" : "auto";
-
-  els.prototypeStage.classList.toggle("is-wide", screen.mode === "wide");
-  els.currentScreenTitle.textContent = screen.title;
-  els.currentScreenNote.textContent = screen.note;
-  renderHotspots(screen);
-  renderNavButtons(index);
-  renderActiveButtons();
-
-  els.toggleHotspots.textContent = state.hotspotsVisible ? "Hide hotspots" : "Show hotspots";
-  els.toggleHotspots.disabled = screen.hotspots.length === 0;
-
-  if (screen.autoAdvanceTo) {
-    state.autoAdvanceTimer = window.setTimeout(() => {
-      navigateTo(screen.autoAdvanceTo);
-    }, screen.autoAdvanceDelay || 1200);
+  if (screen.autoAdvanceTo && slugToScreen.has(screen.autoAdvanceTo)) {
+    state.autoTimer = window.setTimeout(() => {
+      navigateToSlug(screen.autoAdvanceTo);
+    }, screen.autoAdvanceDelay ?? 1400);
   }
 }
 
-function handleHashChange() {
-  const nextId = window.location.hash.replace("#", "");
-  state.currentId = screenMap.has(nextId) ? nextId : "VvQHl";
-  render();
+function buildFlowPills() {
+  const groups = ["happy", "edge", "subflow", "ref"];
+  groups.forEach((g) => {
+    const host = els.pillGroups[g];
+    host.innerHTML = "";
+    screens
+      .filter((s) => s.navGroup === g)
+      .forEach((s) => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = "flow-pill";
+        b.dataset.slug = s.slug;
+        b.textContent = s.flowLabel;
+        b.addEventListener("click", () => navigateToSlug(s.slug));
+        host.appendChild(b);
+      });
+  });
 }
 
-function initFlowThumbnail() {
-  const diagram = screenMap.get("WiK0c");
-  if (diagram && els.flowThumb) {
-    applyImageAttrs(els.flowThumb, diagram);
-    els.flowThumb.alt = "User flow diagram for Task 01 (Pencil frame WiK0c).";
-    els.flowThumb.decoding = "async";
-    els.flowThumb.loading = "lazy";
+function onHashChange() {
+  const raw = window.location.hash.replace(/^#/, "").trim();
+  const slug = parseHash();
+  if (raw && idToSlug.has(raw) && raw !== slug) {
+    history.replaceState(null, "", `#${slug}`);
   }
-}
-
-els.toggleHotspots.addEventListener("click", () => {
-  state.hotspotsVisible = !state.hotspotsVisible;
-  render();
-});
-
-buildScreenLists();
-initFlowThumbnail();
-window.addEventListener("hashchange", handleHashChange);
-
-if (!screenMap.has(state.currentId)) {
-  state.currentId = "VvQHl";
-  window.location.hash = state.currentId;
-} else {
+  state.slug = slug;
   render();
 }
+
+function initFromLocation() {
+  const raw = window.location.hash.replace(/^#/, "").trim();
+  const slug = parseHash();
+  if (!raw) {
+    history.replaceState(null, "", `#${slug}`);
+  } else if (!slugToScreen.has(raw) && !idToSlug.has(raw)) {
+    history.replaceState(null, "", `#${DEFAULT_SLUG}`);
+    state.slug = DEFAULT_SLUG;
+    render();
+    return;
+  } else if (idToSlug.has(raw) && raw !== slug) {
+    history.replaceState(null, "", `#${slug}`);
+  }
+  state.slug = slug;
+  render();
+}
+
+buildFlowPills();
+window.addEventListener("hashchange", onHashChange);
+initFromLocation();
