@@ -197,11 +197,14 @@ const idToScreen = new Map(screens.map((s) => [s.id, s]));
 const idToSlug = new Map(screens.map((s) => [s.id, s.slug]));
 
 const DEFAULT_SLUG = "intro";
+const SCALE_STORAGE_KEY = "st-task01-preview-scale";
 
 const state = {
   slug: DEFAULT_SLUG,
   autoTimer: null,
   hintRevealTimer: null,
+  /** @type {"actual" | "fit"} */
+  scaleMode: "actual",
 };
 
 const els = {
@@ -210,6 +213,8 @@ const els = {
   image: document.getElementById("screen-image"),
   hits: document.getElementById("hits-layer"),
   hint: document.getElementById("state-hint"),
+  scaleToggle: document.getElementById("scale-toggle"),
+  scaleToggleLabel: document.querySelector("#scale-toggle .scale-toggle__label"),
   pillGroups: {
     happy: document.getElementById("flow-pills--happy"),
     edge: document.getElementById("flow-pills--edge"),
@@ -217,6 +222,44 @@ const els = {
     ref: document.getElementById("flow-pills--ref"),
   },
 };
+
+function readStoredScaleMode() {
+  try {
+    const v = localStorage.getItem(SCALE_STORAGE_KEY);
+    if (v === "fit" || v === "actual") return v;
+  } catch {
+    /* ignore */
+  }
+  return "actual";
+}
+
+function persistScaleMode() {
+  try {
+    localStorage.setItem(SCALE_STORAGE_KEY, state.scaleMode);
+  } catch {
+    /* ignore */
+  }
+}
+
+function applyScaleMode() {
+  const isFit = state.scaleMode === "fit";
+  els.stage.classList.toggle("fit-mode", isFit);
+  if (els.scaleToggle) {
+    els.scaleToggle.setAttribute("aria-pressed", isFit ? "true" : "false");
+    els.scaleToggle.title = isFit
+      ? "Show design pixels at 1:1 (396×874)"
+      : "Scale preview to fit the window";
+    if (els.scaleToggleLabel) {
+      els.scaleToggleLabel.textContent = isFit ? "1:1" : "Fit";
+    }
+  }
+}
+
+function toggleScaleMode() {
+  state.scaleMode = state.scaleMode === "fit" ? "actual" : "fit";
+  persistScaleMode();
+  applyScaleMode();
+}
 
 function parseHash() {
   const raw = window.location.hash.replace(/^#/, "").trim();
@@ -334,6 +377,7 @@ function buildFlowPills() {
         b.type = "button";
         b.className = "flow-pill";
         b.dataset.slug = s.slug;
+        b.dataset.navGroup = s.navGroup;
         b.textContent = s.flowLabel;
         b.addEventListener("click", () => navigateToSlug(s.slug));
         host.appendChild(b);
@@ -386,6 +430,11 @@ function onDeviceScreenClick(e) {
 }
 
 buildFlowPills();
+state.scaleMode = readStoredScaleMode();
+applyScaleMode();
+if (els.scaleToggle) {
+  els.scaleToggle.addEventListener("click", () => toggleScaleMode());
+}
 els.screen.addEventListener("click", onDeviceScreenClick);
 window.addEventListener("hashchange", onHashChange);
 initFromLocation();

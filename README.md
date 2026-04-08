@@ -4,9 +4,12 @@ Static prototype for **View out-of-scope assets** (`Task-01.pen`). Screens are P
 
 ## Interaction model
 
-- **Left sidebar** — Title, state hint, and human-readable flow pills (no Pencil node IDs). Groups: Happy path, Edge cases, Add to project, Reference. On narrow viewports the sidebar stacks above the phone.
-- **Phone** — Centered in the main column. Hash routes use **slugs** (e.g. `#map-oos-on`). Legacy hashes like `#Fx6sb` are rewritten once to the matching slug.
-- **Tap targets** — Invisible buttons aligned to the Pencil layout. Tap a non-interactive area on the mockup to briefly highlight tappable regions (blue shimmer). Edge-only screens are opened from the sidebar, not from fake map hotspots.
+- **Left sidebar** — Title, state hint, and flow pills grouped by **color + icon** (teal happy path, amber edge, violet sub-flow, blue reference). No Pencil node IDs in the UI. On narrow viewports the sidebar stacks above the preview.
+- **Preview column** — Phone (or wide diagram) centered. **Right rail:** **Fit** scales the frame to the viewport (saved in `localStorage`); **1:1** locks **396×874** design pixels.
+- **Routing** — Hash **slugs** (e.g. `#map-oos-on`). Legacy `#Fx6sb`-style ids rewrite once to the slug.
+- **Tap targets** — Invisible, Pencil-aligned. Tap a non-interactive area to briefly show a blue shimmer on interactive regions.
+
+**Reusing this setup for another `.pen` file:** see [docs/PROTOTYPE-FROM-PENCIL.md](docs/PROTOTYPE-FROM-PENCIL.md).
 
 ## Local preview
 

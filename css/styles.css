@@ -7,6 +7,19 @@
   --teal-muted: rgba(11, 130, 124, 0.12);
   --surface: #ffffff;
   --page-bg: #f4f4f5;
+
+  /* Flow group accents (sidebar) */
+  --group-happy: #0d9488;
+  --group-happy-soft: rgba(13, 148, 136, 0.14);
+  --group-edge: #d97706;
+  --group-edge-soft: rgba(217, 119, 6, 0.14);
+  --group-subflow: #7c3aed;
+  --group-subflow-soft: rgba(124, 58, 237, 0.14);
+  --group-ref: #2563eb;
+  --group-ref-soft: rgba(37, 99, 235, 0.14);
+
+  --rail-bg: #fafafa;
+  --rail-border: #e4e4e7;
 }
 
 *,
@@ -95,11 +108,35 @@ button {
 }
 
 .flow-nav__group-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   font-size: 10px;
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--muted);
+  letter-spacing: 0.07em;
+}
+
+.flow-nav__group-icon {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+}
+
+.flow-nav__group--happy .flow-nav__group-label {
+  color: var(--group-happy);
+}
+
+.flow-nav__group--edge .flow-nav__group-label {
+  color: var(--group-edge);
+}
+
+.flow-nav__group--subflow .flow-nav__group-label {
+  color: var(--group-subflow);
+}
+
+.flow-nav__group--ref .flow-nav__group-label {
+  color: var(--group-ref);
 }
 
 .flow-nav__pills {
@@ -122,29 +159,206 @@ button {
   transition: background 0.12s ease, border-color 0.12s ease, color 0.12s ease;
 }
 
-.flow-pill:hover {
-  border-color: rgba(11, 130, 124, 0.35);
-  background: var(--teal-muted);
+.flow-nav__group--happy .flow-pill:hover {
+  border-color: rgba(13, 148, 136, 0.45);
+  background: var(--group-happy-soft);
 }
 
-.flow-pill:focus-visible {
-  outline: 2px solid var(--teal);
+.flow-nav__group--happy .flow-pill:focus-visible {
+  outline: 2px solid var(--group-happy);
   outline-offset: 2px;
 }
 
-.flow-pill.is-active {
-  border-color: var(--teal);
-  background: var(--teal);
+.flow-nav__group--happy .flow-pill.is-active {
+  border-color: var(--group-happy);
+  background: var(--group-happy);
   color: #fff;
+}
+
+.flow-nav__group--edge .flow-pill:hover {
+  border-color: rgba(217, 119, 6, 0.5);
+  background: var(--group-edge-soft);
+}
+
+.flow-nav__group--edge .flow-pill:focus-visible {
+  outline: 2px solid var(--group-edge);
+  outline-offset: 2px;
+}
+
+.flow-nav__group--edge .flow-pill.is-active {
+  border-color: var(--group-edge);
+  background: var(--group-edge);
+  color: #fff;
+}
+
+.flow-nav__group--subflow .flow-pill:hover {
+  border-color: rgba(124, 58, 237, 0.45);
+  background: var(--group-subflow-soft);
+}
+
+.flow-nav__group--subflow .flow-pill:focus-visible {
+  outline: 2px solid var(--group-subflow);
+  outline-offset: 2px;
+}
+
+.flow-nav__group--subflow .flow-pill.is-active {
+  border-color: var(--group-subflow);
+  background: var(--group-subflow);
+  color: #fff;
+}
+
+.flow-nav__group--ref .flow-pill:hover {
+  border-color: rgba(37, 99, 235, 0.45);
+  background: var(--group-ref-soft);
+}
+
+.flow-nav__group--ref .flow-pill:focus-visible {
+  outline: 2px solid var(--group-ref);
+  outline-offset: 2px;
+}
+
+.flow-nav__group--ref .flow-pill.is-active {
+  border-color: var(--group-ref);
+  background: var(--group-ref);
+  color: #fff;
+}
+
+/* Main preview column + right rail */
+.stage-column {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  align-items: stretch;
+}
+
+.stage-body {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.stage-rail {
+  flex-shrink: 0;
+  width: 52px;
+  background: var(--rail-bg);
+  border-left: 1px solid var(--rail-border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 0;
+  gap: 12px;
+}
+
+.scale-toggle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 44px;
+  padding: 10px 6px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--muted);
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.scale-toggle:hover {
+  border-color: #93c5fd;
+  background: rgba(37, 99, 235, 0.06);
+  color: #1d4ed8;
+}
+
+.scale-toggle[aria-pressed="true"] {
+  border-color: #3b82f6;
+  background: rgba(37, 99, 235, 0.12);
+  color: #1e40af;
+}
+
+.scale-toggle:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+.scale-toggle__glyph {
+  position: relative;
+  width: 22px;
+  height: 22px;
+}
+
+.scale-toggle__icon {
+  position: absolute;
+  inset: 0;
+  width: 22px;
+  height: 22px;
+}
+
+/* Show "fit" icon when at 1:1 (click → fit); show phone when fit active (click → 1:1) */
+.stage:not(.fit-mode) .scale-toggle__icon--actual {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.stage.fit-mode .scale-toggle__icon--fit {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.scale-toggle__label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  line-height: 1.1;
+  text-align: center;
+  max-width: 3.2rem;
 }
 
 .stage {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px 20px 28px;
-  min-height: 100vh;
+  padding: 20px 16px 28px;
+  flex: 1;
+  min-height: 0;
   min-width: 0;
+}
+
+/* 1:1 (design pixel size) — phone frames */
+.stage:not(.fit-mode):not(.is-wide) .device-screen {
+  width: 396px;
+  height: 874px;
+}
+
+.stage:not(.fit-mode):not(.is-wide) .screen-image {
+  width: 396px;
+  height: 874px;
+}
+
+/* Fit to available space (keeps 396:874) */
+.stage.fit-mode:not(.is-wide) .device-frame {
+  max-width: 100%;
+}
+
+.stage.fit-mode:not(.is-wide) .device-screen {
+  width: auto;
+  height: min(874px, calc(100dvh - 100px));
+  max-width: 100%;
+  aspect-ratio: 396 / 874;
+}
+
+.stage.fit-mode:not(.is-wide) .screen-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  max-height: min(874px, calc(100dvh - 100px));
 }
 
 .stage.is-wide .device-frame {
@@ -159,9 +373,22 @@ button {
   border-radius: 16px;
 }
 
+.stage.fit-mode.is-wide .device-screen {
+  max-height: min(70vh, 560px);
+  width: auto;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
 .stage.is-wide .screen-image {
   width: 100%;
   height: auto;
+}
+
+.stage.fit-mode.is-wide .screen-image {
+  width: 100%;
+  max-height: min(70vh, 560px);
+  object-fit: contain;
 }
 
 .stage.is-wide .hits-layer {
@@ -180,8 +407,6 @@ button {
 
 .device-screen {
   position: relative;
-  width: 396px;
-  height: 874px;
   margin: 0 auto;
   border-radius: 24px;
   overflow: hidden;
@@ -190,8 +415,6 @@ button {
 
 .screen-image {
   display: block;
-  width: 396px;
-  height: 874px;
   max-width: 100%;
   vertical-align: top;
   user-select: none;
@@ -201,11 +424,9 @@ button {
 .hits-layer {
   position: absolute;
   inset: 0;
-  /* Let taps pass through to the image; only .hit receives events */
   pointer-events: none;
 }
 
-/* Invisible tap targets: no overlay chrome; show focus ring only for keyboard */
 .hit {
   position: absolute;
   margin: 0;
@@ -216,7 +437,6 @@ button {
   pointer-events: auto;
 }
 
-/* After tapping a non-interactive area: subtle blue fill + moving gradient shimmer */
 .hits-layer.reveal-hints .hit {
   background: rgba(59, 130, 246, 0.1);
   border-radius: 8px;
@@ -298,20 +518,45 @@ button {
     min-width: min(100%, 140px);
   }
 
+  .stage-column {
+    flex-direction: column;
+  }
+
+  .stage-rail {
+    flex-direction: row;
+    width: 100%;
+    justify-content: flex-end;
+    border-left: none;
+    border-bottom: 1px solid var(--rail-border);
+    padding: 10px 16px;
+    order: -1;
+  }
+
+  .scale-toggle {
+    flex-direction: row;
+    width: auto;
+    padding: 8px 14px;
+    gap: 10px;
+  }
+
+  .scale-toggle__label {
+    max-width: none;
+  }
+
   .stage {
-    min-height: auto;
     padding-top: 12px;
+    min-height: auto;
   }
 }
 
 @media (max-width: 480px) {
-  .device-screen {
+  .stage:not(.fit-mode):not(.is-wide) .device-screen {
     width: 100%;
     height: auto;
     aspect-ratio: 396 / 874;
   }
 
-  .screen-image {
+  .stage:not(.fit-mode):not(.is-wide) .screen-image {
     width: 100%;
     height: auto;
   }
