@@ -32,12 +32,9 @@ Then open `http://127.0.0.1:4173/`.
 
 ## GitHub Pages
 
-This folder is intended to be the root of a standalone repository.
-
-1. Create a new public GitHub repository.
-2. Push the contents of this folder to the repository root on `main`.
-3. In GitHub Settings → Pages, deploy from `main` and `(root)`.
-4. The site will publish at `https://<github-username>.github.io/<repo-name>/`.
+- Repository: `https://github.com/swamisaurST/service-stream-task-01-prototype`
+- Live site: `https://swamisaurst.github.io/service-stream-task-01-prototype/`
+- Pages source: `main` branch, repository root
 
 ## Notes
 
