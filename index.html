@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Service Stream Task 01 Prototype</title>
+    <meta
+      name="description"
+      content="Pixel-perfect GitHub Pages prototype for Service Stream Task 01."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./css/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="sidebar__header">
+          <p class="eyebrow">Service Stream</p>
+          <h1>Task 01 Prototype</h1>
+          <p class="lede">
+            Pixel-accurate prototype exported from <code>Task-01.pen</code> and
+            hosted as a standalone static site.
+          </p>
+        </div>
+
+        <section class="panel">
+          <div class="panel__title-row">
+            <h2>Current Screen</h2>
+            <button id="toggle-hotspots" class="ghost-button" type="button">
+              Hide hotspots
+            </button>
+          </div>
+          <p id="current-screen-title" class="screen-title"></p>
+          <p id="current-screen-note" class="screen-note"></p>
+          <div class="nav-actions">
+            <button id="previous-screen" class="nav-button" type="button">
+              Previous
+            </button>
+            <button id="next-screen" class="nav-button nav-button--primary" type="button">
+              Next
+            </button>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h2>Main Flow</h2>
+          <div id="main-flow-list" class="screen-list"></div>
+        </section>
+
+        <section class="panel">
+          <h2>Edge Cases</h2>
+          <div id="edge-case-list" class="screen-list"></div>
+        </section>
+
+        <section class="panel">
+          <h2>Work Log Sub-flow</h2>
+          <div id="subflow-list" class="screen-list"></div>
+        </section>
+
+        <section class="panel panel--diagram">
+          <div class="panel__title-row">
+            <h2>Flow Map</h2>
+            <a class="ghost-link" href="#WiK0c">Open diagram</a>
+          </div>
+          <img
+            src="./design-exports/WiK0c.png"
+            alt="Flow diagram for the Task 01 prototype."
+            class="flow-diagram"
+          />
+        </section>
+      </aside>
+
+      <main class="prototype-stage">
+        <div class="phone-frame">
+          <div class="phone-stage">
+            <img
+              id="screen-image"
+              class="screen-image"
+              src="./design-exports/VvQHl.png"
+              alt="Service Stream prototype screen"
+            />
+            <div id="hotspots-layer" class="hotspots-layer" aria-hidden="true"></div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <template id="screen-button-template">
+      <button class="screen-list__item" type="button">
+        <span class="screen-list__label"></span>
+        <span class="screen-list__id"></span>
+      </button>
+    </template>
+
+    <script src="./js/app.js"></script>
+  </body>
+</html>
