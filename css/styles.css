@@ -246,6 +246,7 @@ code {
   display: block;
   width: 396px;
   height: 874px;
+  max-width: 100%;
   user-select: none;
   -webkit-user-drag: none;
 }

@@ -1,8 +1,29 @@
+/**
+ * Task-01 prototype — screens match Pencil frames 396×874 (1x) in design-exports/.
+ * Retina: design-exports/2x/<id>.png @ 2x via srcset.
+ */
 const PHONE_WIDTH = 396;
 const PHONE_HEIGHT = 874;
 
 const pctX = (value) => `${(value / PHONE_WIDTH) * 100}%`;
 const pctY = (value) => `${(value / PHONE_HEIGHT) * 100}%`;
+
+const EXPORT_BASE = "./design-exports";
+
+function imageAttrsForScreen(screen) {
+  const id = screen.id;
+  const src = `${EXPORT_BASE}/${id}.png`;
+  const src2x = `${EXPORT_BASE}/2x/${id}.png`;
+  const sizes =
+    screen.mode === "wide"
+      ? "(max-width: 1400px) min(96vw, 1320px), 1200px"
+      : `${PHONE_WIDTH}px`;
+  return {
+    src,
+    srcset: `${src2x} 2x`,
+    sizes,
+  };
+}
 
 const screens = [
   {
@@ -11,7 +32,6 @@ const screens = [
     title: "Hero",
     group: "main",
     note: "Cover frame for the Requirement 1 prototype. Tap the lower CTA area to enter the map flow.",
-    image: "./design-exports/VvQHl.png",
     hotspots: [
       { x: 74, y: 756, width: 248, height: 70, label: "Start", target: "nATGl", wide: true },
     ],
@@ -22,10 +42,7 @@ const screens = [
     title: "1.0 Default Map",
     group: "main",
     note: "Entry state with OOS inactive. Tap the filter control to open nearby layer selection.",
-    image: "./design-exports/nATGl.png",
-    hotspots: [
-      { x: 330, y: 145, width: 46, height: 46, label: "Layers", target: "W6XyF" },
-    ],
+    hotspots: [{ x: 330, y: 145, width: 46, height: 46, label: "Layers", target: "W6XyF" }],
   },
   {
     id: "W6XyF",
@@ -33,7 +50,6 @@ const screens = [
     title: "1.1 Layer Selection",
     group: "main",
     note: "Nearby / layer panel open. Tap the Planned row toggle to fetch OOS assets.",
-    image: "./design-exports/W6XyF.png",
     hotspots: [
       { x: 258, y: 649, width: 94, height: 34, label: "Enable", target: "FoXXr", wide: true },
       { x: 16, y: 64, width: 38, height: 38, label: "Back", target: "nATGl" },
@@ -45,7 +61,6 @@ const screens = [
     title: "1.2 Loading",
     group: "main",
     note: "Loading state. This screen auto-advances into the populated map after a short pause.",
-    image: "./design-exports/FoXXr.png",
     autoAdvanceTo: "Fx6sb",
     autoAdvanceDelay: 1400,
     hotspots: [{ x: 16, y: 64, width: 38, height: 38, label: "Back", target: "W6XyF" }],
@@ -56,7 +71,6 @@ const screens = [
     title: "1.3 Populated Map",
     group: "main",
     note: "Assets loaded with legend and marker states. Tap the center asset to open the detail card, or branch into an edge case.",
-    image: "./design-exports/Fx6sb.png",
     hotspots: [
       { x: 160, y: 463, width: 74, height: 74, label: "Asset", target: "UOyL2" },
       { x: 330, y: 144, width: 46, height: 46, label: "Layers", target: "W6XyF" },
@@ -72,7 +86,6 @@ const screens = [
     title: "1.4 OOS Asset Detail",
     group: "main",
     note: "Read-only OOS detail card. Continue into the extended add-to-project sub-flow from the primary CTA.",
-    image: "./design-exports/UOyL2.png",
     hotspots: [
       { x: 16, y: 64, width: 38, height: 38, label: "Back", target: "Fx6sb" },
       { x: 27, y: 768, width: 342, height: 46, label: "Add to project", target: "8LdJ5", wide: true },
@@ -84,7 +97,6 @@ const screens = [
     title: "1.5 Empty State",
     group: "edge",
     note: "No assets returned for the selected radius. Use the bottom action to return to the layer sheet.",
-    image: "./design-exports/Ynrkt.png",
     hotspots: [
       { x: 28, y: 727, width: 340, height: 42, label: "Adjust filters", target: "W6XyF", wide: true },
     ],
@@ -95,10 +107,7 @@ const screens = [
     title: "1.6 Error State",
     group: "edge",
     note: "Fetch failed. Retry from the inline action or return to the layer sheet from the QA list.",
-    image: "./design-exports/Y3qLp.png",
-    hotspots: [
-      { x: 24, y: 726, width: 348, height: 44, label: "Retry", target: "FoXXr", wide: true },
-    ],
+    hotspots: [{ x: 24, y: 726, width: 348, height: 44, label: "Retry", target: "FoXXr", wide: true }],
   },
   {
     id: "Egs8X",
@@ -106,7 +115,6 @@ const screens = [
     title: "1.7 Permission Denied",
     group: "edge",
     note: "User lacks access to the layer. Return to the layer selector to continue the happy path.",
-    image: "./design-exports/Egs8X.png",
     hotspots: [
       { x: 28, y: 720, width: 340, height: 44, label: "Back to layers", target: "W6XyF", wide: true },
     ],
@@ -117,10 +125,7 @@ const screens = [
     title: "1.8 Toggle Off",
     group: "edge",
     note: "OOS markers hidden. Return to the default map entry state from the toast branch.",
-    image: "./design-exports/TzhY7.png",
-    hotspots: [
-      { x: 28, y: 720, width: 340, height: 44, label: "Done", target: "nATGl", wide: true },
-    ],
+    hotspots: [{ x: 28, y: 720, width: 340, height: 44, label: "Done", target: "nATGl", wide: true }],
   },
   {
     id: "8LdJ5",
@@ -128,7 +133,6 @@ const screens = [
     title: "1.9 Add to Project",
     group: "subflow",
     note: "Extended intake step launched from the OOS detail card.",
-    image: "./design-exports/8LdJ5.png",
     hotspots: [
       { x: 16, y: 64, width: 38, height: 38, label: "Back", target: "UOyL2" },
       { x: 28, y: 768, width: 340, height: 46, label: "Choose project", target: "gxYDh", wide: true },
@@ -140,7 +144,6 @@ const screens = [
     title: "1.10 Project Picker",
     group: "subflow",
     note: "Select a destination project to continue into the work log form.",
-    image: "./design-exports/gxYDh.png",
     hotspots: [
       { x: 24, y: 210, width: 348, height: 70, label: "Select project", target: "dyUol", wide: true },
       { x: 16, y: 64, width: 38, height: 38, label: "Back", target: "8LdJ5" },
@@ -152,7 +155,6 @@ const screens = [
     title: "1.11 Work Log Form",
     group: "subflow",
     note: "Form entry state. Continue from the bottom action into the review screen.",
-    image: "./design-exports/dyUol.png",
     hotspots: [
       { x: 211, y: 822, width: 157, height: 34, label: "Review", target: "DSeSv", wide: true },
       { x: 28, y: 822, width: 158, height: 34, label: "Back", target: "gxYDh", wide: true },
@@ -164,7 +166,6 @@ const screens = [
     title: "1.12 Work Log Review",
     group: "subflow",
     note: "Final review. Submit for success or use the alternate branch to inspect the conflict state.",
-    image: "./design-exports/DSeSv.png",
     hotspots: [
       { x: 212, y: 822, width: 156, height: 34, label: "Submit", target: "TaeoT", wide: true },
       { x: 28, y: 822, width: 158, height: 34, label: "Conflict", target: "tYbkE", wide: true },
@@ -176,7 +177,6 @@ const screens = [
     title: "1.13 Success",
     group: "subflow",
     note: "Success toast on the map. Return to the populated map to keep exploring.",
-    image: "./design-exports/TaeoT.png",
     hotspots: [
       { x: 28, y: 768, width: 340, height: 46, label: "Back to map", target: "Fx6sb", wide: true },
     ],
@@ -187,7 +187,6 @@ const screens = [
     title: "1.14 Error / Conflict",
     group: "subflow",
     note: "Conflict sheet branch from the review step.",
-    image: "./design-exports/tYbkE.png",
     hotspots: [
       { x: 28, y: 781, width: 340, height: 40, label: "Back to review", target: "DSeSv", wide: true },
     ],
@@ -198,7 +197,6 @@ const screens = [
     title: "Flow Diagram",
     group: "diagram",
     note: "Reference diagram exported from the Pencil canvas for the overall Task 01 path.",
-    image: "./design-exports/WiK0c.png",
     mode: "wide",
     hotspots: [],
   },
@@ -215,6 +213,7 @@ const state = {
 
 const els = {
   image: document.querySelector("#screen-image"),
+  flowThumb: document.querySelector(".flow-diagram"),
   hotspotsLayer: document.querySelector("#hotspots-layer"),
   prototypeStage: document.querySelector(".prototype-stage"),
   currentScreenTitle: document.querySelector("#current-screen-title"),
@@ -229,6 +228,15 @@ const els = {
     subflow: document.querySelector("#subflow-list"),
   },
 };
+
+function applyImageAttrs(img, screen) {
+  const { src, srcset, sizes } = imageAttrsForScreen(screen);
+  img.src = src;
+  img.srcset = srcset;
+  img.sizes = sizes;
+  img.width = screen.mode === "wide" ? 2200 : PHONE_WIDTH;
+  img.height = screen.mode === "wide" ? 560 : PHONE_HEIGHT;
+}
 
 function buildScreenLists() {
   ["main", "edge", "subflow"].forEach((group) => {
@@ -286,7 +294,10 @@ function renderHotspots(screen) {
     els.hotspotsLayer.appendChild(button);
   });
 
-  els.hotspotsLayer.classList.toggle("is-visible", state.hotspotsVisible && screen.hotspots.length > 0);
+  els.hotspotsLayer.classList.toggle(
+    "is-visible",
+    state.hotspotsVisible && screen.hotspots.length > 0
+  );
 }
 
 function renderNavButtons(index) {
@@ -311,8 +322,11 @@ function render() {
   const screen = screenMap.get(state.currentId) || screenMap.get("VvQHl");
   const index = orderedIds.indexOf(screen.id);
 
-  els.image.src = screen.image;
+  applyImageAttrs(els.image, screen);
   els.image.alt = `${screen.title} screen`;
+  els.image.decoding = "async";
+  els.image.fetchPriority = index === 0 ? "high" : "auto";
+
   els.prototypeStage.classList.toggle("is-wide", screen.mode === "wide");
   els.currentScreenTitle.textContent = screen.title;
   els.currentScreenNote.textContent = screen.note;
@@ -336,12 +350,23 @@ function handleHashChange() {
   render();
 }
 
+function initFlowThumbnail() {
+  const diagram = screenMap.get("WiK0c");
+  if (diagram && els.flowThumb) {
+    applyImageAttrs(els.flowThumb, diagram);
+    els.flowThumb.alt = "User flow diagram for Task 01 (Pencil frame WiK0c).";
+    els.flowThumb.decoding = "async";
+    els.flowThumb.loading = "lazy";
+  }
+}
+
 els.toggleHotspots.addEventListener("click", () => {
   state.hotspotsVisible = !state.hotspotsVisible;
   render();
 });
 
 buildScreenLists();
+initFlowThumbnail();
 window.addEventListener("hashchange", handleHashChange);
 
 if (!screenMap.has(state.currentId)) {
