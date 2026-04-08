@@ -4,9 +4,9 @@ Static prototype for **View out-of-scope assets** (`Task-01.pen`). Screens are P
 
 ## Interaction model
 
-- **Top flow bar** — Human-readable pills (no Pencil node IDs in the UI). Click any state to jump there. Groups: Happy path, Edge cases, Add to project, Reference.
-- **Phone** — Stays centered in the main area (always visible below the bar). Hash routes use **slugs** (e.g. `#map-oos-on`). Legacy hashes like `#Fx6sb` are rewritten once to the matching slug.
-- **Tap targets** — Invisible buttons aligned to the Pencil layout (layers funnel, Planned row, markers, primary sheet actions). There are **no** fake “QA” regions on the populated map; edge states are opened from the flow bar.
+- **Left sidebar** — Title, state hint, and human-readable flow pills (no Pencil node IDs). Groups: Happy path, Edge cases, Add to project, Reference. On narrow viewports the sidebar stacks above the phone.
+- **Phone** — Centered in the main column. Hash routes use **slugs** (e.g. `#map-oos-on`). Legacy hashes like `#Fx6sb` are rewritten once to the matching slug.
+- **Tap targets** — Invisible buttons aligned to the Pencil layout. Tap a non-interactive area on the mockup to briefly highlight tappable regions (blue shimmer). Edge-only screens are opened from the sidebar, not from fake map hotspots.
 
 ## Local preview
 
@@ -26,9 +26,11 @@ Open `http://127.0.0.1:4173/` (or `#map-oos-off`, `#layer-picker`, etc.).
 
 Re-export from Pencil with **export_nodes** on `Task-01.pen` if frames change.
 
-## GitHub / Pages
+## GitHub Pages
 
-The previous `origin` remote was removed from this folder so you can point at a new repository when you are ready. Enable **GitHub Pages** from `main` / root after you add a remote and push.
+- **Live:** https://swamisaurst.github.io/service-stream-task-01-prototype/
+- **Repo:** https://github.com/swamisaurST/service-stream-task-01-prototype  
+- Source: `main` branch, site from repository root (`.nojekyll` present).
 
 ## Slugs (for sharing)
 
