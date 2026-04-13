@@ -8,12 +8,14 @@ const pctX = (v) => `${(v / PHONE_WIDTH) * 100}%`;
 const pctY = (v) => `${(v / PHONE_HEIGHT) * 100}%`;
 
 const EXPORT_BASE = "./design-exports";
+const EXPORT_VERSION = "20260413";
 
 function imageAttrs(screen) {
   const id = screen.id;
+  const v = `?v=${EXPORT_VERSION}`;
   return {
-    src: `${EXPORT_BASE}/${id}.png`,
-    srcset: `${EXPORT_BASE}/2x/${id}.png 2x`,
+    src: `${EXPORT_BASE}/${id}.png${v}`,
+    srcset: `${EXPORT_BASE}/2x/${id}.png${v} 2x`,
     sizes:
       screen.mode === "wide"
         ? "(max-width: 1400px) min(96vw, 1200px), 1200px"
