@@ -2,6 +2,12 @@
 
 Static prototype for **View out-of-scope assets** (`Task-01.pen`). Screens are PNG exports at **396×874** (plus `2x/` for Retina `srcset`).
 
+## Design source
+
+- **Pencil file (canonical):** [`Task-01.pen`](./Task-01.pen) — Requirement 1, View out-of-scope assets (396×874 phone frames + flow diagram).
+- Open in [Pencil](https://pencil.dev) to edit artboards or re-export PNGs into `design-exports/`.
+- Map rasters referenced inside the file use `assets/task-01-map-base.png` (relative to the `.pen`); bundle those assets alongside the file if you relocate it.
+
 ## Interaction model
 
 - **Left sidebar** — Title, state hint, and flow pills grouped by **color + icon** (teal happy path, amber edge, violet sub-flow, blue reference). No Pencil node IDs in the UI. On narrow viewports the sidebar stacks above the preview.
